@@ -1,0 +1,50 @@
+Creating a release
+==================
+
+:synopsis: Creating a django-extensions-shell release
+
+
+How to make a new release
+-------------------------
+
+Get a fresh copy::
+
+  $ git clone git@github.com:shanx/django-extensions-shell.git
+  $ cd django-extensions-shell
+
+Run tests::
+
+  $ flake8 django_extensions_shell
+  $ tox --recreate
+
+Change version numbers in django_extensions_shell/__init__.py and docs/conf.py::
+
+  $ vi django_extensions_shell/__init__.py              (1 occurance)
+  $ vi docs/conf.py                                     (2 occurances)
+  $ git commit -a -m v0.4.1
+
+Tag it::
+
+  $ git tag 0.4.1
+
+Remove old build directory (if exists)::
+
+  $ rm -r build
+
+Prepare the release tarball::
+
+  $ python ./setup.py sdist bdist_wheel
+
+Upload release to pypi::
+
+  $ python ./setup.py sdist bdist_wheel upload -s
+
+Bumb version number to new in-development pre version::
+
+  $ vi django_extensions_shell/__init__.py
+  $ git commit -a -m 'bumped version number'
+
+Push changes back to github::
+
+  $ git push --tags
+  $ git push
