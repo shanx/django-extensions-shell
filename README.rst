@@ -3,11 +3,7 @@
 =========================
 
 .. image:: https://img.shields.io/pypi/l/django-extensions-shell.svg
-   :target: https://raw.githubusercontent.com/django-extensions-shell/django-extensions-shell/master/LICENSE
-
-.. image:: https://secure.travis-ci.org/django-extensions-shell/django-extensions-shell.svg?branch=master
-    :alt: Build Status
-    :target: http://travis-ci.org/django-extensions-shell/django-extensions-shell
+   :target: https://raw.githubusercontent.com/shanx/django-extensions-shell/master/LICENSE
 
 .. image:: https://img.shields.io/pypi/v/django-extensions-shell.svg
     :target: https://pypi.python.org/pypi/django-extensions-shell/
@@ -20,10 +16,6 @@
 .. image:: https://img.shields.io/pypi/wheel/django-extensions-shell.svg
     :target: https://pypi.python.org/pypi/django-extensions-shell/
     :alt: Supports Wheel format
-
-.. image:: https://coveralls.io/repos/django-extensions-shell/django-extensions-shell/badge.svg?branch=master
-   :target: https://coveralls.io/r/django-extensions-shell/django-extensions-shell?branch=master
-   :alt: Coverage
 
 Django Extensions Shell is the `shell_plus` command extracted from the excellent Django Extensions project into its
 own project. In most projects I've been only using the `shell_plus` command and to me it feels much better to
