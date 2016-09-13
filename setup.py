@@ -37,10 +37,6 @@ setup(
     name='django-extensions-shell',
     version=version,
     description="Isolated shell_plus command from django-extensions",
-    long_description="""Django Extensions Shell is the `shell_plus` command extracted from the excellent Django Extensions project into its
-own project. In most projects I've been only using the `shell_plus` command and to me it feels much better to
-only introduce a dependency on this specific code in projects then to depend on the whole Django Extensions project.
-For more information: http://github.com/shanx/django-extensions-shell""",
     author='Michael Trier',
     author_email='mtrier@gmail.com',
     maintainer='Remco Wendt',
