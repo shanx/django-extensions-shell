@@ -5,7 +5,7 @@ Based entirely on Django's own ``setup.py``.
 import os
 import sys
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 try:
     from setuptools.command.test import test as TestCommand
@@ -57,7 +57,11 @@ setup(
     url='http://github.com/shanx/django-extensions-shell',
     license='MIT License',
     platforms=['any'],
-    packages=find_packages(),
+    packages=[
+        'django_extensions_shell',
+        'django_extensions_shell.management',
+        'django_extensions_shell.management.commands'
+    ],
     cmdclass={'test': PyTest},
     install_requires=['six>=1.2'],
     tests_require=[
