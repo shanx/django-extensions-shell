@@ -2,6 +2,7 @@
 """
 Based entirely on Django's own ``setup.py``.
 """
+import os
 import sys
 
 from setuptools import find_packages, setup
@@ -30,6 +31,17 @@ try:
 except ImportError:
     PyTest = None
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+# Get the long description from the README file
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
+long_description += '\n\n'
+
+# Append changelog to long description
+with open(os.path.join(here, 'CHANGELOG.rst'), encoding='utf-8') as f:
+    long_description += f.read()
 
 version = __import__('django_extensions_shell').__version__
 
@@ -37,6 +49,7 @@ setup(
     name='django-extensions-shell',
     version=version,
     description="Isolated shell_plus command from django-extensions",
+    long_description=long_description,
     author='Michael Trier',
     author_email='mtrier@gmail.com',
     maintainer='Remco Wendt',
