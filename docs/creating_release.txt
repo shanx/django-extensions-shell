@@ -21,18 +21,13 @@ Create a release using git flow::
 
   $ git flow release start 0.4.1
 
-Change version number in django_extensions_shell/__init__.py::
-
-  $ vi django_extensions_shell/__init__.py    (1 occurance)
-
 Update CHANGELOG.md to create future release and set datestamp for current release::
 
   $ vi CHANGELOG.md
 
-Commit and finish release::
+Bump version::
 
-  $ git commit -a -m "Bumbed version to 0.4.1"
-  $ git flow release finish 0.4.1
+  $ bumpversion minor
 
 Remove old build directory (if exists)::
 
