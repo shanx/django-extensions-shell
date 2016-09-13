@@ -17,15 +17,22 @@ Run tests::
   $ flake8 django_extensions_shell
   $ tox --recreate
 
-Change version numbers in django_extensions_shell/__init__.py and docs/conf.py::
+Create a release using git flow::
 
-  $ vi django_extensions_shell/__init__.py              (1 occurance)
-  $ vi docs/conf.py                                     (2 occurances)
-  $ git commit -a -m v0.4.1
+  $ git flow release start 0.4.1
 
-Tag it::
+Change version number in django_extensions_shell/__init__.py::
 
-  $ git tag 0.4.1
+  $ vi django_extensions_shell/__init__.py    (1 occurance)
+
+Update CHANGELOG.md to create future release and set datestamp for current release::
+
+  $ vi CHANGELOG.md
+
+Commit and finish release::
+
+  $ git commit -a -m "Bumbed version to 0.4.1"
+  $ git flow release finish 0.4.1
 
 Remove old build directory (if exists)::
 
