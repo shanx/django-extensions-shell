@@ -4,13 +4,8 @@ Based entirely on Django's own ``setup.py``.
 """
 import os
 import sys
-from distutils.command.install import INSTALL_SCHEMES
-from distutils.command.install_data import install_data
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup  # NOQA
+from setuptools import setup
 
 try:
     from setuptools.command.test import test as TestCommand
@@ -36,76 +31,17 @@ try:
 except ImportError:
     PyTest = None
 
+here = os.path.abspath(os.path.dirname(__file__))
 
-class osx_install_data(install_data):
-    # On MacOS, the platform-specific lib dir is at:
-    #   /System/Library/Framework/Python/.../
-    # which is wrong. Python 2.5 supplied with MacOS 10.5 has an Apple-specific
-    # fix for this in distutils.command.install_data#306. It fixes install_lib
-    # but not install_data, which is why we roll our own install_data class.
+# Get the long description from the README file
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
-    def finalize_options(self):
-        # By the time finalize_options is called, install.install_lib is set to
-        # the fixed directory, so we set the installdir to install_lib. The
-        # install_data class uses ('install_data', 'install_dir') instead.
-        self.set_undefined_options('install', ('install_lib', 'install_dir'))
-        install_data.finalize_options(self)
+long_description += '\n\n'
 
-if sys.platform == "darwin":
-    cmdclasses = {'install_data': osx_install_data}
-else:
-    cmdclasses = {'install_data': install_data}
-
-if PyTest:
-    cmdclasses['test'] = PyTest
-
-
-def fullsplit(path, result=None):
-    """
-    Split a pathname into components (the opposite of os.path.join) in a
-    platform-neutral way.
-    """
-    if result is None:
-        result = []
-    head, tail = os.path.split(path)
-    if head == '':
-        return [tail] + result
-    if head == path:
-        return result
-    return fullsplit(head, [tail] + result)
-
-# Tell distutils to put the data_files in platform-specific installation
-# locations. See here for an explanation:
-# http://groups.google.com/group/comp.lang.python/browse_thread/thread/35ec7b2fed36eaec/2105ee4d9e8042cb
-for scheme in INSTALL_SCHEMES.values():
-    scheme['data'] = scheme['purelib']
-
-
-# Compile the list of packages available, because distutils doesn't have
-# an easy way to do this.
-packages, package_data = [], {}
-
-root_dir = os.path.dirname(__file__)
-if root_dir != '':
-    os.chdir(root_dir)
-extensions_dir = 'django_extensions_shell'
-
-for dirpath, dirnames, filenames in os.walk(extensions_dir):
-    # Ignore PEP 3147 cache dirs and those whose names start with '.'
-    dirnames[:] = [d for d in dirnames if not d.startswith('.') and d != '__pycache__']
-    parts = fullsplit(dirpath)
-    package_name = '.'.join(parts)
-    if '__init__.py' in filenames:
-        packages.append(package_name)
-    elif filenames:
-        relative_path = []
-        while '.'.join(parts) not in packages:
-            relative_path.append(parts.pop())
-        relative_path.reverse()
-        path = os.path.join(*relative_path)
-        package_files = package_data.setdefault('.'.join(parts), [])
-        package_files.extend([os.path.join(path, f) for f in filenames])
-
+# Append changelog to long description
+with open(os.path.join(here, 'CHANGELOG.rst'), encoding='utf-8') as f:
+    long_description += f.read()
 
 version = __import__('django_extensions_shell').__version__
 
@@ -113,10 +49,7 @@ setup(
     name='django-extensions-shell',
     version=version,
     description="Isolated shell_plus command from django-extensions",
-    long_description="""Django Extensions Shell is the `shell_plus` command extracted from the excellent Django Extensions project into its
-own project. In most projects I've been only using the `shell_plus` command and to me it feels much better to
-only introduce a dependency on this specific code in projects then to depend on the whole Django Extensions project.
-For more information: http://github.com/shanx/django-extensions-shell""",
+    long_description=long_description,
     author='Michael Trier',
     author_email='mtrier@gmail.com',
     maintainer='Remco Wendt',
@@ -124,9 +57,12 @@ For more information: http://github.com/shanx/django-extensions-shell""",
     url='http://github.com/shanx/django-extensions-shell',
     license='MIT License',
     platforms=['any'],
-    packages=packages,
-    cmdclass=cmdclasses,
-    package_data=package_data,
+    packages=[
+        'django_extensions_shell',
+        'django_extensions_shell.management',
+        'django_extensions_shell.management.commands'
+    ],
+    cmdclass={'test': PyTest},
     install_requires=['six>=1.2'],
     tests_require=[
         'Django',
