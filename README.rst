@@ -21,6 +21,9 @@ Django Extensions Shell is the `shell_plus` command extracted from the excellent
 own project. In most projects I've been only using the `shell_plus` command and to me it feels much better to
 introduce a dependency on this specific code in projects then to depend on the whole Django Extensions project.
 
+Django Extensions Shell will loosely follow releases done by the Django Extensions Project itself. The version
+number of Django Extensions Shell will always match the release of Django Extensions.
+
 
 Requirements
 ============
